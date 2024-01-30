@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./Form"
+import Link from "next/link"
 
 
 const formSchema = z.object({
@@ -46,7 +47,7 @@ export function Login() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-[430px] w-full">
         <FormField
           control={form.control}
           name="email"
@@ -81,6 +82,9 @@ export function Login() {
             </FormItem>
           )}
         />
+        <Link href='/register'
+          className="text-[#0C21C1] text-sm font-medium space-y-2 block"
+        >Registre-se agora</Link>
         <Button type="submit"
           className="w-full text-white py-4 rounded-full bg-gradient-to-r bg-[#0C21C1] hover:bg-[#310CC2]
             min-h-[50px]
