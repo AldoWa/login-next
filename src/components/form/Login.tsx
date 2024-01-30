@@ -1,0 +1,92 @@
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Button } from "./Button"
+import { Input } from "./Input"
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./Form"
+
+
+const formSchema = z.object({
+  email: z.string(
+    {
+      required_error: "Email is required.",
+    }
+  ).email({
+    message: "Please enter a valid email.",
+  }),
+  password: z.string(
+    {
+      required_error: "Password is required.",
+    }
+  ).min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+})
+
+export function Login() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: ""
+    },
+  })
+ 
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel
+                className="text-[#999999] font-medium text-sm"
+              >Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your email address" {...field} 
+                  className="border-b-2 border-t-0 border-l-0 border-r-0 rounded-none border-[#000842]"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel
+                className="text-[#999999] font-medium text-sm"
+              >Password</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your Password" {...field} type="password"
+                  className="border-b-2 border-t-0 border-l-0 border-r-0 rounded-none border-[#000842]"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit"
+          className="w-full text-white py-4 rounded-full bg-gradient-to-r bg-[#0C21C1] hover:bg-[#310CC2]
+            min-h-[50px]
+          "
+        >Submit</Button>
+      </form>
+    </Form>
+  )
+}
