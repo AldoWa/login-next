@@ -13,6 +13,8 @@ import {
   FormMessage,
 } from "./Form"
 import Link from "next/link"
+import { useContext } from "react"
+import { AuthContext } from "@/context/AuthContext"
 
 
 const formSchema = z.object({
@@ -40,9 +42,11 @@ export function Login() {
       password: ""
     },
   })
+
+  const { signIn } = useContext(AuthContext)
  
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    signIn(values)
   }
 
   return (
